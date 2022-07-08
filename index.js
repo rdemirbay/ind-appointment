@@ -23,7 +23,11 @@ function sendNotification() {
 }
 
 function formatSlot(slot) {
-  return slot &&  `${slot.date} ${slot.startTime}-${slot.endTime} for ${slot.parts} person.`;
+  return slot && `${slot.date} ${slot.startTime}-${slot.endTime} for ${slot.parts} person.`;
+}
+
+function now() {
+  return (new Date()).toTimeString();
 }
 
 async function checkaAvailability() {
@@ -31,15 +35,15 @@ async function checkaAvailability() {
   const slots = await getData();
 
   if (!slots[0]) {
-    console.log('Not available.');
+    console.log('Not available.', now());
     return false;
   }
 
   if (slots[0].date <= dateline) {
     sendNotification();
-    console.log(formatSlot(slots[0]), 'Go to IND => https://oap.ind.nl/oap/en/#/doc');
+    console.log(formatSlot(slots[0]), 'Go to IND => https://oap.ind.nl/oap/en/#/doc', now());
   } else {
-    console.log('Earliest slot is later than deadline :(', formatSlot(slots[0]));
+    console.log('Earliest slot is later than deadline :(', formatSlot(slots[0]), now());
   }
 };
 
